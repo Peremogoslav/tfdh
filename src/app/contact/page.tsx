@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import {
   MapPin,
@@ -10,44 +11,40 @@ import {
   Clock,
   Send,
   CheckCircle,
-  MessageSquare
+  MessageSquare,
+  AlertCircle
 } from 'lucide-react';
 import Image from 'next/image';
 
+interface FormData {
+  name: string;
+  email: string;
+  company?: string;
+  subject: string;
+  message: string;
+  budget: string;
+  timeline: string;
+}
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    subject: '',
-    message: '',
-    budget: '',
-    timeline: ''
-  });
-
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
     // Симуляція відправки форми
+    await new Promise(resolve => setTimeout(resolve, 1500));
     setIsSubmitted(true);
+    setIsSubmitting(false);
+    reset();
     setTimeout(() => setIsSubmitted(false), 5000);
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      subject: '',
-      message: '',
-      budget: '',
-      timeline: ''
-    });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
   };
 
   const contactInfo = [
@@ -143,8 +140,8 @@ export default function ContactPage() {
                   {info.title}
                 </h3>
                 <div className="space-y-1">
-                  {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-gray-600 text-sm">
+                  {info.details.map((detail) => (
+                    <p key={detail} className="text-gray-600 text-sm">
                       {detail}
                     </p>
                   ))}
@@ -189,7 +186,7 @@ export default function ContactPage() {
                     </p>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -197,13 +194,21 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          {...register('name', {
+                            required: 'Імя є обов\'язковим полем',
+                            minLength: { value: 2, message: 'Імя повинно містити мінімум 2 символи' }
+                          })}
+                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                            errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                          }`}
                           placeholder="Ваше ім'я"
                         />
+                        {errors.name && (
+                          <div className="flex items-center mt-1 text-red-600 text-sm">
+                            <AlertCircle className="h-4 w-4 mr-1" />
+                            {errors.name.message}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -211,13 +216,24 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          {...register('email', {
+                            required: 'Email є обов\'язковим полем',
+                            pattern: {
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message: 'Введіть коректний email'
+                            }
+                          })}
+                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                            errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                          }`}
                           placeholder="your@email.com"
                         />
+                        {errors.email && (
+                          <div className="flex items-center mt-1 text-red-600 text-sm">
+                            <AlertCircle className="h-4 w-4 mr-1" />
+                            {errors.email.message}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -228,22 +244,20 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="text"
-                          name="company"
-                          value={formData.company}
-                          onChange={handleChange}
+                          {...register('company')}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Назва компанії"
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Тип проекту
+                          Тип проекту *
                         </label>
                         <select
-                          name="subject"
-                          value={formData.subject}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          {...register('subject', { required: 'Оберіть тип проекту' })}
+                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                            errors.subject ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                          }`}
                         >
                           <option value="">Оберіть послугу</option>
                           {services.map((service) => (
@@ -252,19 +266,25 @@ export default function ContactPage() {
                             </option>
                           ))}
                         </select>
+                        {errors.subject && (
+                          <div className="flex items-center mt-1 text-red-600 text-sm">
+                            <AlertCircle className="h-4 w-4 mr-1" />
+                            {errors.subject.message}
+                          </div>
+                        )}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Бюджет
+                          Бюджет *
                         </label>
                         <select
-                          name="budget"
-                          value={formData.budget}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          {...register('budget', { required: 'Оберіть бюджет проекту' })}
+                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                            errors.budget ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                          }`}
                         >
                           <option value="">Оберіть бюджет</option>
                           {budgetRanges.map((range) => (
@@ -273,16 +293,22 @@ export default function ContactPage() {
                             </option>
                           ))}
                         </select>
+                        {errors.budget && (
+                          <div className="flex items-center mt-1 text-red-600 text-sm">
+                            <AlertCircle className="h-4 w-4 mr-1" />
+                            {errors.budget.message}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Терміни
+                          Терміни *
                         </label>
                         <select
-                          name="timeline"
-                          value={formData.timeline}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          {...register('timeline', { required: 'Оберіть терміни виконання' })}
+                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                            errors.timeline ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                          }`}
                         >
                           <option value="">Оберіть терміни</option>
                           {timelineOptions.map((option) => (
@@ -291,6 +317,12 @@ export default function ContactPage() {
                             </option>
                           ))}
                         </select>
+                        {errors.timeline && (
+                          <div className="flex items-center mt-1 text-red-600 text-sm">
+                            <AlertCircle className="h-4 w-4 mr-1" />
+                            {errors.timeline.message}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -299,19 +331,41 @@ export default function ContactPage() {
                         Повідомлення *
                       </label>
                       <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
+                        {...register('message', {
+                          required: 'Повідомлення є обов\'язковим полем',
+                          minLength: { value: 10, message: 'Повідомлення повинно містити мінімум 10 символів' }
+                        })}
                         rows={5}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+                          errors.message ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                        }`}
                         placeholder="Розкажіть детальніше про ваш проект..."
                       />
+                      {errors.message && (
+                        <div className="flex items-center mt-1 text-red-600 text-sm">
+                          <AlertCircle className="h-4 w-4 mr-1" />
+                          {errors.message.message}
+                        </div>
+                      )}
                     </div>
 
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" size="lg">
-                      Надіслати повідомлення
-                      <Send className="ml-2 h-5 w-5" />
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      size="lg"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
+                          Надсилання...
+                        </>
+                      ) : (
+                        <>
+                          Надіслати повідомлення
+                          <Send className="ml-2 h-5 w-5" />
+                        </>
+                      )}
                     </Button>
                   </form>
                 )}
@@ -340,8 +394,8 @@ export default function ContactPage() {
                     'Рекомендації щодо технологій',
                     'Оцінка термінів та бюджету',
                     'Відповіді на всі ваші питання'
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center space-x-3">
+                  ].map((item) => (
+                    <li key={item} className="flex items-center space-x-3">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
                       <span className="text-gray-700">{item}</span>
                     </li>
