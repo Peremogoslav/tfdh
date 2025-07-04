@@ -15,7 +15,6 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { name: 'Github', icon: Github, href: '#' },
     { name: 'LinkedIn', icon: Linkedin, href: '#' },
     { name: 'Twitter', icon: Twitter, href: '#' },
   ];
@@ -33,7 +32,7 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-sm text-gray-300">
                 <MapPin className="h-4 w-4" />
-                <span>вул. Хрещатик, 1, Київ, Україна</span>
+                <span>Київ, Україна</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-gray-300">
                 <Phone className="h-4 w-4" />

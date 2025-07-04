@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,68 +12,80 @@ export default function BlogPage() {
     {
       id: 1,
       title: 'Майбутнє веб-розробки: тренди 2025 року',
-      excerpt: 'Дослідження найактуальніших технологій та підходів у веб-розробці, які формуватимуть індустрію у наступному році.',
-      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop&crop=center',
+      excerpt:
+        'Дослідження найактуальніших технологій та підходів у веб-розробці, які формуватимуть індустрію у наступному році.',
+      image:
+        'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop&crop=center',
       author: 'Марія Коваленко',
       date: '15 грудня 2024',
       readTime: '5 хв читання',
       category: 'Веб-розробка',
-      featured: true
+      featured: true,
     },
     {
       id: 2,
       title: 'Як штучний інтелект змінює бізнес-процеси',
-      excerpt: 'Практичні приклади впровадження AI у різних галузях та їх вплив на ефективність компаній.',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&crop=center',
+      excerpt:
+        'Практичні приклади впровадження AI у різних галузях та їх вплив на ефективність компаній.',
+      image:
+        'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&crop=center',
       author: 'Олександр Петренко',
       date: '10 грудня 2024',
       readTime: '7 хв читання',
       category: 'Штучний інтелект',
-      featured: true
+      featured: true,
     },
     {
       id: 3,
       title: 'Мобільні додатки: нативна розробка vs React Native',
-      excerpt: 'Порівняння різних підходів до створення мобільних додатків та рекомендації щодо вибору технології.',
-      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop&crop=center',
+      excerpt:
+        'Порівняння різних підходів до створення мобільних додатків та рекомендації щодо вибору технології.',
+      image:
+        'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop&crop=center',
       author: 'Сергій Бондаренко',
       date: '5 грудня 2024',
       readTime: '6 хв читання',
       category: 'Мобільна розробка',
-      featured: false
+      featured: false,
     },
     {
       id: 4,
       title: 'DevOps практики для стартапів',
-      excerpt: 'Основні принципи DevOps, які допомагають молодим компаніям швидко масштабуватися та підтримувати якість.',
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&crop=center',
+      excerpt:
+        'Основні принципи DevOps, які допомагають молодим компаніям швидко масштабуватися та підтримувати якість.',
+      image:
+        'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&crop=center',
       author: 'Віктор Мельник',
       date: '28 листопада 2024',
       readTime: '8 хв читання',
       category: 'DevOps',
-      featured: false
+      featured: false,
     },
     {
       id: 5,
       title: 'UX/UI дизайн: створення інтуїтивних інтерфейсів',
-      excerpt: 'Принципи проектування користувацьких інтерфейсів, які покращують користувацький досвід.',
-      image: 'https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=600&h=400&fit=crop&crop=center',
+      excerpt:
+        'Принципи проектування користувацьких інтерфейсів, які покращують користувацький досвід.',
+      image:
+        'https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=600&h=400&fit=crop&crop=center',
       author: 'Анна Сидорова',
       date: '22 листопада 2024',
       readTime: '4 хв читання',
       category: 'Дизайн',
-      featured: false
+      featured: false,
     },
     {
       id: 6,
       title: 'Безпека в сучасних веб-додатках',
-      excerpt: 'Огляд найпоширеніших загроз безпеки та методів захисту веб-додатків від кібератак.',
-      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop&crop=center',
+      excerpt:
+        'Огляд найпоширеніших загроз безпеки та методів захисту веб-додатків від кібератак.',
+      image:
+        'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop&crop=center',
       author: 'Дмитро Іваненко',
       date: '15 листопада 2024',
       readTime: '9 хв читання',
       category: 'Безпека',
-      featured: false
+      featured: false,
     },
   ];
 
@@ -83,11 +96,19 @@ export default function BlogPage() {
     'Штучний інтелект',
     'DevOps',
     'Дизайн',
-    'Безпека'
+    'Безпека',
   ];
 
-  const featuredArticles = articles.filter(article => article.featured);
-  const regularArticles = articles.filter(article => !article.featured);
+  const [selectedCategory, setSelectedCategory] = useState('Всі категорії');
+
+  const featuredArticles = articles.filter((article) => article.featured);
+
+  // Фільтрація регулярних статей по вибраній категорії
+  const regularArticles = articles.filter(
+    (article) =>
+      !article.featured &&
+      (selectedCategory === 'Всі категорії' || article.category === selectedCategory)
+  );
 
   return (
     <div className="min-h-screen">
@@ -100,9 +121,7 @@ export default function BlogPage() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Блог
-            </h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">Блог</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Останні новини та інсайти з світу технологій від наших експертів
             </p>
@@ -120,9 +139,7 @@ export default function BlogPage() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">
-              Рекомендовані статті
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Рекомендовані статті</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
@@ -140,6 +157,7 @@ export default function BlogPage() {
                     src={article.image}
                     alt={article.title}
                     fill
+                    priority
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-4 left-4">
@@ -153,9 +171,7 @@ export default function BlogPage() {
                   <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                     {article.title}
                   </h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    {article.excerpt}
-                  </p>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{article.excerpt}</p>
 
                   <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                     <div className="flex items-center space-x-4">
@@ -197,16 +213,20 @@ export default function BlogPage() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">
-              Всі статті
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Всі статті</h2>
 
             {/* Categories Filter */}
             <div className="flex flex-wrap gap-2 mb-8">
               {categories.map((category) => (
                 <button
                   key={category}
-                  className="px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-full hover:bg-blue-50 hover:border-blue-300 transition-colors"
+                  onClick={() => setSelectedCategory(category)}
+                  aria-pressed={selectedCategory === category}
+                  className={`px-4 py-2 rounded-full border transition-colors ${
+                    selectedCategory === category
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:border-blue-300'
+                  }`}
                 >
                   {category}
                 </button>
@@ -215,51 +235,57 @@ export default function BlogPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {regularArticles.map((article, index) => (
-              <motion.article
-                key={article.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
-              >
-                <div className="relative h-48">
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded-full">
-                      {article.category}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {article.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
-
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                    <span>{article.author}</span>
-                    <span>{article.date}</span>
+            {regularArticles.length === 0 ? (
+              <p className="text-gray-500 col-span-full text-center">
+                Статей у цій категорії немає.
+              </p>
+            ) : (
+              regularArticles.map((article, index) => (
+                <motion.article
+                  key={article.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded-full">
+                        {article.category}
+                      </span>
+                    </div>
                   </div>
 
-                  <Button size="sm" variant="outline" className="w-full group" asChild>
-                    <Link href={`/blog/${article.id}`}>
-                      Читати далі
-                      <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </Button>
-                </div>
-              </motion.article>
-            ))}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {article.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+                      {article.excerpt}
+                    </p>
+
+                    <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+                      <span>{article.author}</span>
+                      <span>{article.date}</span>
+                    </div>
+
+                    <Button size="sm" variant="outline" className="w-full group" asChild>
+                      <Link href={`/blog/${article.id}`}>
+                        Читати далі
+                        <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                    </Button>
+                  </div>
+                </motion.article>
+              ))
+            )}
           </div>
         </div>
       </section>

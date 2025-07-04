@@ -19,12 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uk">
-      <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
+      <body>
+        <div suppressHydrationWarning className="min-h-screen flex flex-col">
           <Header />
-          <main className="flex-1">
-            {children}
-          </main>
+          <main className="flex-1">{children}</main>
           <Footer />
           <ScrollToTop />
         </div>

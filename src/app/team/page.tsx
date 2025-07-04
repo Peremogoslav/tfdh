@@ -5,112 +5,72 @@ import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import Image from 'next/image';
 
 export default function TeamPage() {
-  const team = [
-    {
-      name: 'Олександр Петренко',
-      position: 'CEO & Засновник',
-      bio: 'Досвідчений технологічний лідер з 10+ років в IT. Спеціалізується на стратегічному плануванні та управлінні командами.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'alex@innovtech.ua'
-      },
-      skills: ['Leadership', 'Strategy', 'Business Development']
-    },
-    {
-      name: 'Марія Коваленко',
-      position: 'CTO & Lead Developer',
-      bio: 'Експерт у веб-технологіях з глибокими знаннями React, Node.js та хмарних рішень. Веде технічну команду.',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b332c5cc?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'maria@innovtech.ua'
-      },
-      skills: ['React', 'Node.js', 'TypeScript', 'AWS']
-    },
-    {
-      name: 'Дмитро Іваненко',
-      position: 'Senior Full-Stack Developer',
-      bio: 'Універсальний розробник з досвідом створення складних веб-додатків та мобільних рішень.',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'dmitry@innovtech.ua'
-      },
-      skills: ['Full-Stack', 'React', 'Python', 'Database Design']
-    },
-    {
-      name: 'Анна Сидорова',
-      position: 'UI/UX Designer',
-      bio: 'Креативний дизайнер з пристрастю до створення інтуїтивних та красивих користувацьких інтерфейсів.',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'anna@innovtech.ua'
-      },
-      skills: ['UI/UX', 'Figma', 'Prototyping', 'User Research']
-    },
-    {
-      name: 'Віктор Мельник',
-      position: 'DevOps Engineer',
-      bio: 'Спеціаліст з автоматизації та інфраструктури, забезпечує надійність та масштабованість наших рішень.',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'viktor@innovtech.ua'
-      },
-      skills: ['DevOps', 'Docker', 'Kubernetes', 'CI/CD']
-    },
-    {
-      name: 'Ольга Шевченко',
-      position: 'Project Manager',
-      bio: 'Досвідчений проект-менеджер, який забезпечує своєчасну та якісну реалізацію проектів.',
-      image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'olga@innovtech.ua'
-      },
-      skills: ['Project Management', 'Agile', 'Scrum', 'Communication']
-    },
-    {
-      name: 'Сергій Бондаренко',
-      position: 'Mobile Developer',
-      bio: 'Спеціаліст з розробки мобільних додатків для iOS та Android, працює з React Native та нативними технологіями.',
-      image: 'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'sergey@innovtech.ua'
-      },
-      skills: ['React Native', 'iOS', 'Android', 'Flutter']
-    },
-    {
-      name: 'Тетяна Кравченко',
-      position: 'QA Engineer',
-      bio: 'Експерт з забезпечення якості, відповідальна за тестування та контроль якості всіх наших продуктів.',
-      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face',
-      social: {
-        linkedin: '#',
-        github: '#',
-        twitter: '#',
-        email: 'tetyana@innovtech.ua'
-      },
-      skills: ['QA Testing', 'Automation', 'Manual Testing', 'Bug Tracking']
-    },
-  ];
+ const team = [
+  {
+    name: 'Олександр Петренко',
+    position: 'CEO & Засновник',
+    bio: 'Досвідчений технологічний лідер з 10+ років в IT...',
+    image: 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png', // 🧑‍💼
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'alex@innovtech.ua' },
+    skills: ['Leadership', 'Strategy', 'Business Development']
+  },
+  {
+    name: 'Марія Коваленко',
+    position: 'CTO & Lead Developer',
+    bio: 'Експерт у веб-технологіях з глибокими знаннями React...',
+    image: 'https://cdn-icons-png.flaticon.com/512/2922/2922561.png', // 👩‍💻
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'maria@innovtech.ua' },
+    skills: ['React', 'Node.js', 'TypeScript', 'AWS']
+  },
+  {
+    name: 'Дмитро Іваненко',
+    position: 'Senior Full-Stack Developer',
+    bio: 'Універсальний розробник з досвідом створення складних...',
+    image: 'https://cdn-icons-png.flaticon.com/512/4322/4322991.png', // 👨‍💻
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'dmitry@innovtech.ua' },
+    skills: ['Full-Stack', 'React', 'Python', 'Database Design']
+  },
+  {
+    name: 'Анна Сидорова',
+    position: 'UI/UX Designer',
+    bio: 'Креативний дизайнер з пристрастю до створення...',
+    image: 'https://cdn-icons-png.flaticon.com/512/236/236832.png', // 🎨
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'anna@innovtech.ua' },
+    skills: ['UI/UX', 'Figma', 'Prototyping', 'User Research']
+  },
+  {
+    name: 'Віктор Мельник',
+    position: 'DevOps Engineer',
+    bio: 'Спеціаліст з автоматизації та інфраструктури...',
+    image: 'https://cdn-icons-png.flaticon.com/512/3771/3771507.png', // 🛠️
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'viktor@innovtech.ua' },
+    skills: ['DevOps', 'Docker', 'Kubernetes', 'CI/CD']
+  },
+  {
+    name: 'Ольга Шевченко',
+    position: 'Project Manager',
+    bio: 'Досвідчений проект-менеджер...',
+    image: 'https://cdn-icons-png.flaticon.com/512/4140/4140037.png', // 👩‍💼
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'olga@innovtech.ua' },
+    skills: ['Project Management', 'Agile', 'Scrum', 'Communication']
+  },
+  {
+    name: 'Сергій Бондаренко',
+    position: 'Mobile Developer',
+    bio: 'Спеціаліст з розробки мобільних додатків...',
+    image: 'https://cdn-icons-png.flaticon.com/512/1144/1144760.png', // 📱
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'sergey@innovtech.ua' },
+    skills: ['React Native', 'iOS', 'Android', 'Flutter']
+  },
+  {
+    name: 'Тетяна Кравченко',
+    position: 'QA Engineer',
+    bio: 'Експерт з забезпечення якості...',
+    image: 'https://cdn-icons-png.flaticon.com/512/4341/4341139.png', // 🧪
+    social: { linkedin: '#', github: '#', twitter: '#', email: 'tetyana@innovtech.ua' },
+    skills: ['QA Testing', 'Automation', 'Manual Testing', 'Bug Tracking']
+  }
+];
 
   const stats = [
     { number: '20+', label: 'Членів команди' },

@@ -53,18 +53,6 @@ const Header = () => {
 
           {/* Language Switcher & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Globe className="h-4 w-4" />
-                  УК
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Українська</DropdownMenuItem>
-                <DropdownMenuItem>English</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
 
             {/* Mobile menu button */}
             <div className="md:hidden">

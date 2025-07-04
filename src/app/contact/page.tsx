@@ -51,7 +51,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: 'Адреса офісу',
-      details: ['вул. Хрещатик, 1', 'Київ, Україна, 01001'],
+      details: ['', 'Київ, Україна, 01001'],
     },
     {
       icon: Phone,
